@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.0.1-beta.1] — 2026-07-21
+
+### 🚀 Features
+
+- initialize subscription message formatter adapters `(172aef9)` — Kiarash Minoo
+
 ## [1.0.1-beta.1] — 2026-07-20
 
 ### 🚀 Features
