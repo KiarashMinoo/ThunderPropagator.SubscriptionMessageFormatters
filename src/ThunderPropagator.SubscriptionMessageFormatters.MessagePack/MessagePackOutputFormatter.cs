@@ -1,0 +1,6 @@
+using ThunderPropagator.FormatSerializers.MessagePack;
+using ThunderPropagator.Infrastructure.Formatters;
+
+namespace ThunderPropagator.SubscriptionMessageFormatters.MessagePack;
+
+public sealed class MessagePackOutputFormatter() : FormatOutputFormatter(MessagePackFormatSerializer.MessagePack, MessagePackFormatSerializer.MessagePackMediaType);

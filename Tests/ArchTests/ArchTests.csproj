@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <EnablePreviewFeatures>true</EnablePreviewFeatures>
+    <TargetFrameworks />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="NetArchTest.Rules" />
+    <PackageReference Include="FluentAssertions" VersionOverride="7.2.0" />
+    <PackageReference Include="$(ThunderPropagatorPackageId)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\ThunderPropagator.SubscriptionMessageFormatters.MessagePack\ThunderPropagator.SubscriptionMessageFormatters.MessagePack.csproj" />
+    <ProjectReference Include="..\..\src\ThunderPropagator.SubscriptionMessageFormatters.NetJson\ThunderPropagator.SubscriptionMessageFormatters.NetJson.csproj" />
+    <ProjectReference Include="..\..\src\ThunderPropagator.SubscriptionMessageFormatters.Protobuf\ThunderPropagator.SubscriptionMessageFormatters.Protobuf.csproj" />
+    <ProjectReference Include="..\..\src\ThunderPropagator.SubscriptionMessageFormatters.Toon\ThunderPropagator.SubscriptionMessageFormatters.Toon.csproj" />
+    <ProjectReference Include="..\..\src\ThunderPropagator.SubscriptionMessageFormatters.Xml\ThunderPropagator.SubscriptionMessageFormatters.Xml.csproj" />
+    <ProjectReference Include="..\..\src\ThunderPropagator.SubscriptionMessageFormatters.Yaml\ThunderPropagator.SubscriptionMessageFormatters.Yaml.csproj" />
+  </ItemGroup>
+
+</Project>
