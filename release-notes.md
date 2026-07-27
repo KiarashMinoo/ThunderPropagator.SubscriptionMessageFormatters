@@ -1,5 +1,5 @@
-## [1.0.1-beta.1] — 2026-07-21
+## [1.0.1-beta.2] — 2026-07-27
 
-### 🚀 Features
+### 📝 Documentation
 
-- initialize subscription message formatter adapters `(172aef9)` — Kiarash Minoo
+- rebuild repository documentation `(fda8104)` — Codex
