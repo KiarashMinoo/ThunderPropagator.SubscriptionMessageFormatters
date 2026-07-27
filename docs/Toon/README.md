@@ -1,138 +1,103 @@
-# Toon Subscription Message Formatter
+# Toon
 
 ## Contents
 
 - [Overview](#overview)
 - [Files](#files)
-- [Types & Members](#types--members)
-- [Serialization & Contracts](#serialization--contracts)
-- [Validation & Constraints](#validation--constraints)
-- [Performance Notes](#performance-notes)
-- [Package Dependencies](#package-dependencies)
+- [Types and Members](#types-and-members)
+- [Serialization and Contracts](#serialization-and-contracts)
+- [Validation and Constraints](#validation-and-constraints)
 - [Diagrams](#diagrams)
 - [Examples](#examples)
 - [See Also](#see-also)
 
 ## Overview
 
-The Toon module adds TOON support to ThunderPropagator's structured subscription-message pipeline. It contributes a singleton `ISubscriptionMessageFormatter` that advertises `text/toon` and delegates serialization through the shared registry. Unlike the binary HTTP adapters, this module does not add ASP.NET Core MVC input or output formatters.
+The **Toon** area groups 2 documented types, including `DependencyInjection`, `ToonSubscriptionMessageFormatter`. It provides the contracts and implementation used by this part of ThunderPropagator.SubscriptionMessageFormatters.
 
 ## Files
 
-| File | Primary type(s)/symbol(s) | LOC (approx) | Responsibility |
+| File | Primary type(s)/symbol(s) | LOC (approx.) | Responsibility |
 |---|---|---:|---|
-| `AssemblyInfo.cs` | Assembly attributes | 4 | Exposes internals to test proxies and the unit-test assembly. |
-| `DependencyInjection.cs` | `DependencyInjection` | 25 | Registers the Toon subscription-message formatter. |
-| `ToonSubscriptionMessageFormatter.cs` | `ToonSubscriptionMessageFormatter` | 13 | Supplies the serializer identity and content type. |
-| `ThunderPropagator.SubscriptionMessageFormatters.Toon.csproj` | Project manifest | 8 | Declares core ThunderPropagator and Toon serializer dependencies. |
+| `AssemblyInfo.cs` | — | 4 | Contains the assembly info implementation or configuration. |
+| `DependencyInjection.cs` | `DependencyInjection` | 23 | Defines DependencyInjection and its related behavior. |
+| `ThunderPropagator.SubscriptionMessageFormatters.Toon.csproj` | — | 8 | Defines project build targets, dependencies, and package metadata. |
+| `ToonSubscriptionMessageFormatter.cs` | `ToonSubscriptionMessageFormatter` | 13 | Defines ToonSubscriptionMessageFormatter and its related behavior. |
 
-## Types & Members
+## Types and Members
 
 | Type | Kind | Summary | Inherits/Implements | Key Members |
 |---|---|---|---|---|
-| `DependencyInjection` | Static class | Registers Toon subscription formatting. | Extension container | `AddToonSubscriptionMessageFormatter` |
-| `ToonSubscriptionMessageFormatter` | Sealed class | Connects structured messages to the TOON serializer. | `StructuredSubscriptionMessageFormatter` | `SerializerType`, `ContentType` |
+| [`DependencyInjection`](#dependencyinjection) | class | Extension methods for registering ThunderPropagator BuildingBlocks services. | — | `AddToonSubscriptionMessageFormatter(…)` |
+| [`ToonSubscriptionMessageFormatter`](#toonsubscriptionmessageformatter) | class | Represents the ToonSubscriptionMessageFormatter class. | — | `SerializerType`, `ContentType` |
 
 ### DependencyInjection
 
-- **Kind:** Static extension class
+- **Kind:** class
 - **Namespace:** `ThunderPropagator.SubscriptionMessageFormatters.Toon`
-- **Key method:** `IServiceCollection AddToonSubscriptionMessageFormatter(IServiceCollection services)`
-- **Validation:** Throws when the service collection is null.
-- **Registration behavior:** Adds one singleton implementation of `ISubscriptionMessageFormatter` with `TryAddEnumerable`.
-- **Thread-safety:** Intended for application startup; no mutable module state is retained.
+- **Inherits/implements:** None declared
+- **Attributes:** None detected
+- **Key members:** `AddToonSubscriptionMessageFormatter(…)`
+- **Summary:** Extension methods for registering ThunderPropagator BuildingBlocks services.
+- **Thread safety:** Follow the lifetime and concurrency guarantees of the owning component; no additional guarantee is inferred.
 
-**Usage Recipe**
+**Usage recipe**
 
 ```csharp
-builder.Services.AddToonSubscriptionMessageFormatter();
-```
-
-### ToonSubscriptionMessageFormatter
-
-- **Kind:** Sealed class
-- **Namespace:** `ThunderPropagator.SubscriptionMessageFormatters.Toon`
-- **Inherits:** `StructuredSubscriptionMessageFormatter`
-- **Constructor:** `ToonSubscriptionMessageFormatter(IFormatSerializerRegistry registry)`
-- **Key properties:** `SerializerType : SerializerType` returns the Toon serializer identifier; `ContentType : string` returns `text/toon`.
-- **Thread-safety:** Relies on the injected registry and serializer implementation.
-- **Serialization notes:** The formatter delegates text-oriented TOON encoding to `ToonFormatSerializer`; the adapter itself does not inspect the model.
-- **Validation notes:** No model validation is added by the adapter.
-
-**Usage Recipe**
-
-```csharp
-var formatter = serviceProvider
-    .GetServices<ISubscriptionMessageFormatter>()
-    .Single(candidate => candidate.ContentType == "text/toon");
+// Resolve DependencyInjection from the configured service container or construct it with its declared dependencies.
 ```
 
 [↑ Back to top](#contents)
 
-## Serialization & Contracts
+### ToonSubscriptionMessageFormatter
 
-The formatter delegates text-oriented TOON encoding to `ToonFormatSerializer`; the adapter itself does not inspect the model. The shared `StructuredSubscriptionMessageFormatter` controls message handling, while this adapter fixes the serializer identity and media type used on the wire.
+- **Kind:** class
+- **Namespace:** `ThunderPropagator.SubscriptionMessageFormatters.Toon`
+- **Inherits/implements:** None declared
+- **Attributes:** None detected
+- **Key members:** `SerializerType`, `ContentType`
+- **Summary:** Represents the ToonSubscriptionMessageFormatter class.
+- **Thread safety:** Follow the lifetime and concurrency guarantees of the owning component; no additional guarantee is inferred.
 
-## Validation & Constraints
+**Usage recipe**
 
-- The service collection and serializer registry are required.
-- The paired Toon serializer must be registered in `IFormatSerializerRegistry`.
-- Producers and consumers must agree on `text/toon`.
-- Codec-specific model rules remain the responsibility of the format-serializer package.
+```csharp
+// Resolve ToonSubscriptionMessageFormatter from the configured service container or construct it with its declared dependencies.
+```
 
-## Performance Notes
+[↑ Back to top](#contents)
 
-The adapter performs constant-time format selection and adds no additional payload transformation. Runtime cost is dominated by TOON serialization and any transport buffering performed by the shared subscription pipeline.
+## Serialization and Contracts
 
-## Package Dependencies
+Serialization behavior is part of the public wire or persistence contract in this area. Preserve field names, ordering rules, content negotiation, and backward-compatibility expectations when changing these types.
 
-| Package | Version | Description | Links |
-|---|---|---|---|
-| `ThunderPropagator` | `1.0.1-beta.186` | Core registry and structured subscription-message abstractions. | [Registry](https://github.com/KiarashMinoo?tab=packages) · [Repository](https://github.com/KiarashMinoo/ThunderPropagator) · [registration](#dependencyinjection) |
-| `ThunderPropagator.FormatSerializers.Toon` | `1.0.1-beta.4` | TOON serializer used by this adapter. | [Registry](https://github.com/KiarashMinoo?tab=packages) · [Repository](https://github.com/KiarashMinoo/ThunderPropagator.FormatSerializers) · [formatter](#toonsubscriptionmessageformatter) |
+## Validation and Constraints
 
-The restored package manifests list ThunderPropagator as author and Apache-2.0 as the license. Shared build properties may select Debug or platform-suffixed package IDs.
+Inputs are validated at component boundaries. Callers should provide non-null required values and handle domain or argument exceptions without retrying invalid requests unchanged.
 
 ## Diagrams
 
-### Subscription formatting flow
+### Component overview
 
 ```mermaid
-sequenceDiagram
-    participant App as Application startup
-    participant DI as AddToonSubscriptionMessageFormatter
-    participant Pipeline as Subscription pipeline
-    participant Formatter as ToonSubscriptionMessageFormatter
-    participant Registry as IFormatSerializerRegistry
-    App->>DI: Register services
-    DI-->>Pipeline: Singleton formatter
-    Pipeline->>Formatter: Format structured message
-    Formatter->>Registry: Resolve Toon serializer
-    Registry-->>Formatter: Serialized payload
-    Formatter-->>Pipeline: text/toon
+graph TD
+  Current["Toon"]
+  Current --> T0["DependencyInjection"]
+  Current --> T1["ToonSubscriptionMessageFormatter"]
 ```
 
-The adapter is selected by content type and delegates encoding to the registered Toon serializer.
+The diagram shows the direct components documented by the **Toon** area.
 
 ## Examples
 
-```csharp
-using ThunderPropagator.SubscriptionMessageFormatters.Toon;
-
-builder.Services.AddToonSubscriptionMessageFormatter();
-
-var candidates = app.Services.GetServices<ISubscriptionMessageFormatter>();
-var toon = candidates.Single(
-    formatter => formatter.ContentType == "text/toon");
-```
+Start with `DependencyInjection` as the primary entry point for this folder, then follow its linked contracts and collaborators.
 
 ## See Also
 
-- [Documentation hub](../README.md)
+- [Documentation home](../README.md)
 - [MessagePack](../MessagePack/README.md)
 - [NetJson](../NetJson/README.md)
 - [Protobuf](../Protobuf/README.md)
-- [Toon](../Toon/README.md)
 - [Xml](../Xml/README.md)
 - [Yaml](../Yaml/README.md)
 

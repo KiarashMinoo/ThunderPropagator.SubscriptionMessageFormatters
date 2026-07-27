@@ -1,139 +1,104 @@
-# Xml Subscription Message Formatter
+# Xml
 
 ## Contents
 
 - [Overview](#overview)
 - [Files](#files)
-- [Types & Members](#types--members)
-- [Serialization & Contracts](#serialization--contracts)
-- [Validation & Constraints](#validation--constraints)
-- [Performance Notes](#performance-notes)
-- [Package Dependencies](#package-dependencies)
+- [Types and Members](#types-and-members)
+- [Serialization and Contracts](#serialization-and-contracts)
+- [Validation and Constraints](#validation-and-constraints)
 - [Diagrams](#diagrams)
 - [Examples](#examples)
 - [See Also](#see-also)
 
 ## Overview
 
-The Xml module adds XML support to ThunderPropagator's structured subscription-message pipeline. It contributes a singleton `ISubscriptionMessageFormatter` that advertises `application/xml` and delegates serialization through the shared registry. Unlike the binary HTTP adapters, this module does not add ASP.NET Core MVC input or output formatters.
+The **Xml** area groups 2 documented types, including `DependencyInjection`, `XmlSubscriptionMessageFormatter`. It provides the contracts and implementation used by this part of ThunderPropagator.SubscriptionMessageFormatters.
 
 ## Files
 
-| File | Primary type(s)/symbol(s) | LOC (approx) | Responsibility |
+| File | Primary type(s)/symbol(s) | LOC (approx.) | Responsibility |
 |---|---|---:|---|
-| `AssemblyInfo.cs` | Assembly attributes | 4 | Exposes internals to test proxies and the unit-test assembly. |
-| `DependencyInjection.cs` | `DependencyInjection` | 26 | Registers the Xml subscription-message formatter. |
-| `XmlSubscriptionMessageFormatter.cs` | `XmlSubscriptionMessageFormatter` | 12 | Supplies the serializer identity and content type. |
-| `ThunderPropagator.SubscriptionMessageFormatters.Xml.csproj` | Project manifest | 8 | Declares core ThunderPropagator and Xml serializer dependencies. |
+| `AssemblyInfo.cs` | — | 4 | Contains the assembly info implementation or configuration. |
+| `DependencyInjection.cs` | `DependencyInjection` | 23 | Defines DependencyInjection and its related behavior. |
+| `ThunderPropagator.SubscriptionMessageFormatters.Xml.csproj` | — | 8 | Defines project build targets, dependencies, and package metadata. |
+| `XmlSubscriptionMessageFormatter.cs` | `XmlSubscriptionMessageFormatter` | 12 | Defines XmlSubscriptionMessageFormatter and its related behavior. |
 
-## Types & Members
+## Types and Members
 
 | Type | Kind | Summary | Inherits/Implements | Key Members |
 |---|---|---|---|---|
-| `DependencyInjection` | Static class | Registers Xml subscription formatting. | Extension container | `AddXmlSubscriptionMessageFormatter` |
-| `XmlSubscriptionMessageFormatter` | Sealed class | Connects structured messages to the XML serializer. | `StructuredSubscriptionMessageFormatter` | `SerializerType`, `ContentType` |
+| [`DependencyInjection`](#dependencyinjection) | class | Extension methods for registering ThunderPropagator BuildingBlocks services. | — | `AddXmlSubscriptionMessageFormatter(…)` |
+| [`XmlSubscriptionMessageFormatter`](#xmlsubscriptionmessageformatter) | class | Represents the XmlSubscriptionMessageFormatter class. | — | `SerializerType`, `ContentType` |
 
 ### DependencyInjection
 
-- **Kind:** Static extension class
+- **Kind:** class
 - **Namespace:** `ThunderPropagator.SubscriptionMessageFormatters.Xml`
-- **Key method:** `IServiceCollection AddXmlSubscriptionMessageFormatter(IServiceCollection services)`
-- **Validation:** Throws when the service collection is null.
-- **Registration behavior:** Adds one singleton implementation of `ISubscriptionMessageFormatter` with `TryAddEnumerable`.
-- **Thread-safety:** Intended for application startup; no mutable module state is retained.
+- **Inherits/implements:** None declared
+- **Attributes:** None detected
+- **Key members:** `AddXmlSubscriptionMessageFormatter(…)`
+- **Summary:** Extension methods for registering ThunderPropagator BuildingBlocks services.
+- **Thread safety:** Follow the lifetime and concurrency guarantees of the owning component; no additional guarantee is inferred.
 
-**Usage Recipe**
+**Usage recipe**
 
 ```csharp
-builder.Services.AddXmlSubscriptionMessageFormatter();
-```
-
-### XmlSubscriptionMessageFormatter
-
-- **Kind:** Sealed class
-- **Namespace:** `ThunderPropagator.SubscriptionMessageFormatters.Xml`
-- **Inherits:** `StructuredSubscriptionMessageFormatter`
-- **Constructor:** `XmlSubscriptionMessageFormatter(IFormatSerializerRegistry registry)`
-- **Key properties:** `SerializerType : SerializerType` returns the Xml serializer identifier; `ContentType : string` returns `application/xml`.
-- **Thread-safety:** Relies on the injected registry and serializer implementation.
-- **Serialization notes:** The formatter delegates XML contract handling to `XmlFormatSerializer`; XML element and attribute behavior is defined by the serializer and model metadata.
-- **Validation notes:** No model validation is added by the adapter.
-
-**Usage Recipe**
-
-```csharp
-var formatter = serviceProvider
-    .GetServices<ISubscriptionMessageFormatter>()
-    .Single(candidate => candidate.ContentType == "application/xml");
+// Resolve DependencyInjection from the configured service container or construct it with its declared dependencies.
 ```
 
 [↑ Back to top](#contents)
 
-## Serialization & Contracts
+### XmlSubscriptionMessageFormatter
 
-The formatter delegates XML contract handling to `XmlFormatSerializer`; XML element and attribute behavior is defined by the serializer and model metadata. The shared `StructuredSubscriptionMessageFormatter` controls message handling, while this adapter fixes the serializer identity and media type used on the wire.
+- **Kind:** class
+- **Namespace:** `ThunderPropagator.SubscriptionMessageFormatters.Xml`
+- **Inherits/implements:** None declared
+- **Attributes:** None detected
+- **Key members:** `SerializerType`, `ContentType`
+- **Summary:** Represents the XmlSubscriptionMessageFormatter class.
+- **Thread safety:** Follow the lifetime and concurrency guarantees of the owning component; no additional guarantee is inferred.
 
-## Validation & Constraints
+**Usage recipe**
 
-- The service collection and serializer registry are required.
-- The paired Xml serializer must be registered in `IFormatSerializerRegistry`.
-- Producers and consumers must agree on `application/xml`.
-- Codec-specific model rules remain the responsibility of the format-serializer package.
+```csharp
+// Resolve XmlSubscriptionMessageFormatter from the configured service container or construct it with its declared dependencies.
+```
 
-## Performance Notes
+[↑ Back to top](#contents)
 
-The adapter performs constant-time format selection and adds no additional payload transformation. Runtime cost is dominated by XML serialization and any transport buffering performed by the shared subscription pipeline.
+## Serialization and Contracts
 
-## Package Dependencies
+Serialization behavior is part of the public wire or persistence contract in this area. Preserve field names, ordering rules, content negotiation, and backward-compatibility expectations when changing these types.
 
-| Package | Version | Description | Links |
-|---|---|---|---|
-| `ThunderPropagator` | `1.0.1-beta.186` | Core registry and structured subscription-message abstractions. | [Registry](https://github.com/KiarashMinoo?tab=packages) · [Repository](https://github.com/KiarashMinoo/ThunderPropagator) · [registration](#dependencyinjection) |
-| `ThunderPropagator.FormatSerializers.Xml` | `1.0.1-beta.4` | XML serializer used by this adapter. | [Registry](https://github.com/KiarashMinoo?tab=packages) · [Repository](https://github.com/KiarashMinoo/ThunderPropagator.FormatSerializers) · [formatter](#xmlsubscriptionmessageformatter) |
+## Validation and Constraints
 
-The restored package manifests list ThunderPropagator as author and Apache-2.0 as the license. Shared build properties may select Debug or platform-suffixed package IDs.
+Inputs are validated at component boundaries. Callers should provide non-null required values and handle domain or argument exceptions without retrying invalid requests unchanged.
 
 ## Diagrams
 
-### Subscription formatting flow
+### Component overview
 
 ```mermaid
-sequenceDiagram
-    participant App as Application startup
-    participant DI as AddXmlSubscriptionMessageFormatter
-    participant Pipeline as Subscription pipeline
-    participant Formatter as XmlSubscriptionMessageFormatter
-    participant Registry as IFormatSerializerRegistry
-    App->>DI: Register services
-    DI-->>Pipeline: Singleton formatter
-    Pipeline->>Formatter: Format structured message
-    Formatter->>Registry: Resolve Xml serializer
-    Registry-->>Formatter: Serialized payload
-    Formatter-->>Pipeline: application/xml
+graph TD
+  Current["Xml"]
+  Current --> T0["DependencyInjection"]
+  Current --> T1["XmlSubscriptionMessageFormatter"]
 ```
 
-The adapter is selected by content type and delegates encoding to the registered Xml serializer.
+The diagram shows the direct components documented by the **Xml** area.
 
 ## Examples
 
-```csharp
-using ThunderPropagator.SubscriptionMessageFormatters.Xml;
-
-builder.Services.AddXmlSubscriptionMessageFormatter();
-
-var candidates = app.Services.GetServices<ISubscriptionMessageFormatter>();
-var xml = candidates.Single(
-    formatter => formatter.ContentType == "application/xml");
-```
+Start with `DependencyInjection` as the primary entry point for this folder, then follow its linked contracts and collaborators.
 
 ## See Also
 
-- [Documentation hub](../README.md)
+- [Documentation home](../README.md)
 - [MessagePack](../MessagePack/README.md)
 - [NetJson](../NetJson/README.md)
 - [Protobuf](../Protobuf/README.md)
 - [Toon](../Toon/README.md)
-- [Xml](../Xml/README.md)
 - [Yaml](../Yaml/README.md)
 
 [↑ Back to top](#contents)
