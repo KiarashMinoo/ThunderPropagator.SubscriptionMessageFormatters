@@ -1,4 +1,4 @@
-﻿<Project>
+<Project>
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     <CentralPackageFloatingVersionsEnabled>true</CentralPackageFloatingVersionsEnabled>
@@ -6,7 +6,7 @@
 
   <PropertyGroup Label="ThunderPropagatorPackages">
     <PackageConfiguration>$(PackageIdConfigurationSuffix)$(PackageIdPlatformSuffix)</PackageConfiguration>
-    <ThunderPropagatorVersion>1.0.1-beta.186</ThunderPropagatorVersion>
+    <ThunderPropagatorVersion>1.0.1-beta.205</ThunderPropagatorVersion>
     <ThunderPropagatorPackageId>ThunderPropagator$(PackageConfiguration)</ThunderPropagatorPackageId>
     <ThunderPropagatorFormatSerializersVersion>1.0.1-beta.4</ThunderPropagatorFormatSerializersVersion>
     <ThunderPropagatorFormatSerializersPrefix>ThunderPropagator.FormatSerializers</ThunderPropagatorFormatSerializersPrefix>

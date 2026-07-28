@@ -1,89 +1,47 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Guidance for working in this repository.
 
-## Project Overview
+## What this repo is
 
-ThunderPropagator BuildingBlocks (Project ARC) is a multi-targeted .NET library (net8.0, net9.0, net10.0) of production-ready, reusable components for cloud-native applications. It publishes two NuGet packages to GitHub Packages.
+A thin adapter layer, not a general-purpose serialization library: each sibling project takes a dependency on the matching upstream format-serializer package and wraps it for two consumers — the host application's pub/sub message-envelope formatting contract, and (where applicable) ASP.NET Core's input/output formatter contracts for HTTP content negotiation. The actual encode/decode logic belongs upstream; this repo only adapts it.
 
-## Build Commands
+## Commands
 
 ```powershell
 dotnet restore
 dotnet build -c Release
 dotnet test -c Release
-dotnet test --filter "FullyQualifiedName~FeederMessageTest"   # single test
+dotnet test --filter "FullyQualifiedName~<Name>"
 dotnet pack -c Release -o artifacts/pkg
 ```
 
-Benchmarks run via: `dotnet run -c Release --filter "*Benchmark*"` from the unit test project.
+## The per-format template
 
-## Architecture
+- **`{Format}SubscriptionMessageFormatter`** — sealed, takes the format-serializer registry as a constructor dependency, derives from the structured-message-formatter base, overrides the serializer-type and content-type it answers to.
+- **`{Format}InputFormatter` / `{Format}OutputFormatter`** — only present for formats that also need HTTP content negotiation; derive from the host application's formatter base classes. Not every format ships these — check whether the concern at hand is pub/sub envelope formatting only, or also HTTP negotiation, before assuming both are needed.
+- **`DependencyInjection`** — static class exposing one `Add{Format}SubscriptionMessageFormatter` extension, registering the subscription formatter as an enumerable service and, where MVC formatters exist, configuring MVC options to add them.
 
-Strict two-layer structure enforced by `Tests/ArchTests/ArchitectureTests.cs`:
+One existing format doesn't fully delegate to its upstream package and instead carries a local, duplicated serializer — treat that as a legacy exception to fix opportunistically, not a template to copy for a new format.
 
-- **Application Layer** (`src/ThunderPropagator.BuildingBlocks.Application/`): Core building blocks — zero Infrastructure dependencies. Breaking this rule will fail the arch tests.
-- **Infrastructure Layer** (`src/ThunderPropagator.BuildingBlocks.Infrastructure/`): System monitoring, health checks, network. Depends on Application only.
+## Architecture rules (enforced)
 
-## Key Design Patterns
+- Each format project keeps its types inside its own namespace.
+- No sibling formatter project may depend on another — the one-contract-many-implementations shape is checked directly, not just at the shared-package boundary.
 
-**FeederMessage** — Dictionary-backed message base class (`ConcurrentDictionary` internally). Strongly-typed properties use `GetValueOrDefault<T>()` / `GetValueOrNull<T>()` / `SetValue()`. Inherit and add typed properties:
-```csharp
-public Guid Id
-{
-    get => GetValueOrDefault(Guid.NewGuid());
-    set => SetValue(value);
-}
-```
+## Conventions
 
-**ServiceConfiguration** — Abstract base for config with `INotifyPropertyChanged` / `INotifyPropertyChanging`. Properties tracked and serialized via reflection with `CaseConverter` for camelCase JSON.
+- Guard-clause library for argument validation; telemetry activity wrapping around formatting calls, matching the upstream package's convention.
+- Nullable + implicit usings on; centrally managed package versions, target frameworks, and version.
 
-**DisposableObject** — Base class for all disposable types. Override `DisposeManagedResources()` or `DisposeUnmanagedResources()`. Use `AnonymousDisposable` for action-based cleanup.
+## Adding a format
 
-**Telemetry** — Wrap all significant operations with OpenTelemetry activities:
-```csharp
-using var activity = Telemetry.HasListeners() ? Telemetry.StartActivity(ClassName_MethodName, ActivityKind.Internal) : null;
-activity?.SetTag("key", value);
-```
-Naming convention: `{ClassName}_{MethodName}`.
+New sibling project depending on the matching upstream serializer package → the subscription-formatter class → input/output formatter classes only if HTTP content negotiation is actually needed for this format → the DI extension → unit tests → an architecture-test row confirming the new project doesn't depend on, and isn't depended on by, any sibling formatter project.
 
-**Platform Providers** — System monitoring pattern: define `IMetricsClient<TMetric>`, internal `IXxxProvider` with per-platform implementations, `CreatePlatformProvider()` factory using `RuntimeInformation.IsOSPlatform()`. Never use external platform-specific packages — only .NET BCL and CLI tools (e.g., nvidia-smi). Graceful degradation (null/empty + error message) when metrics unavailable.
+## Testing
 
-## Code Conventions
+xUnit + NSubstitute. A separate architecture-test project enforces per-project namespace isolation and the no-sibling-dependency rule across every format.
 
-- Internal fields: `_camelCase` with underscore prefix
-- Platform name casing: `MacOs` not `MacOS`; `onAcPower` not `onACPower`
-- Guard clauses via Ardalis: `Guard.Against.Null(param)` with `[CallerArgumentExpression]`
-- XML docs are **required** for all public APIs (`GenerateDocumentationFile=true`; build fails without them)
-- `TreatWarningsAsErrors=true` — no suppressed warnings except CS1591 and CS0067
-- `sealed` classes in DEBUG builds become non-sealed for testability
-- Block-scoped namespace declarations; no primary constructors; no expression-bodied methods/constructors (properties/accessors are fine)
+## Build & versioning
 
-## Serialization Helpers
-
-All serialization helpers expose three variants (string, bytes, base64) for every format:
-- JSON (`ToJson` / `FromJson`) — System.Text.Json with `[JsonSerialization]` attribute support
-- NetJSON, Newtonsoft.Json, YAML (YamlDotNet), ProtoBuf (protobuf-net), MessagePack
-
-Wrap every helper method in a telemetry activity.
-
-## Build Configuration
-
-- Versions centralized in `Directory.Build.props` — do not edit version manually; CI handles bumps
-- Package dependencies centralized in `Directory.Packages.props` (`ManagePackageVersionsCentrally=true`)
-- Debug builds append `.Debug` to package IDs
-- `EnablePreviewFeatures=true` only in test projects
-
-## CI/CD
-
-- `develop` branch → reusable beta workflow → increments beta version and publishes to GitHub Packages
-- `release/` branch → reusable release workflow → strips beta suffix, creates GitHub Release, syncs back to develop
-- Secrets required: `GH_TOKEN`, `NUGET_API_KEY`
-
-## Adding New Features
-
-**New metric** (Infrastructure): Create metric record → `IMetricsClient<TMetric>` interface → platform providers → register in `SystemResourceMonitorExtensions.cs` → add property to `SystemResourceMonitorMetrics.cs` → update `ISystemResourceMonitor.Collect()` → add docs in `docs/`.
-
-**New helper** (Application): Static class with extension methods in `src/.../Helpers/` → `[CallerArgumentExpression]` for validation → XML docs → tests in `Tests/ThunderPropagator.UnitTests/`.
-
-**New serialization format**: Implement all six variants (string/bytes/base64 × serialize/deserialize), wrap each in a telemetry activity.
+Version and target frameworks are centralized; CI bumps automatically on a beta branch (prerelease, every push) and a release branch (finalizes the version) — never hand-edit during feature work. Package versions are centrally managed, including the pinned version of the upstream format-serializer package each sibling project depends on.
