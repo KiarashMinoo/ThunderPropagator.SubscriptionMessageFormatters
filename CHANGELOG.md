@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.0.1-beta.4] — 2026-07-29
+
+### 📝 Documentation
+
+- Fix NU5050: remove case-duplicate ReadMe.md tracked alongside README.md `(83c60d7)` — Kiarash Minoo
+
 ## [1.0.1-beta.3] — 2026-07-28
 
 ### ⚙️ CI / Tooling

@@ -1,9 +1,5 @@
-## [1.0.1-beta.3] — 2026-07-28
+## [1.0.1-beta.4] — 2026-07-29
 
-### ⚙️ CI / Tooling
+### 📝 Documentation
 
-- enable nuget-filter-enabled to stop publishing every platform/config package variant `(1af15c3)` — Kiarash Minoo
-
-### 🏠 Chores
-
-- update ThunderPropagator version to 1.0.1-beta.205 and add solution-level dependency check `(6f1d77c)` — Kiarash Minoo
+- Fix NU5050: remove case-duplicate ReadMe.md tracked alongside README.md `(83c60d7)` — Kiarash Minoo
