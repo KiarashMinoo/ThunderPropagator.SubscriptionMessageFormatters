@@ -3,15 +3,13 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     <CentralPackageFloatingVersionsEnabled>true</CentralPackageFloatingVersionsEnabled>
   </PropertyGroup>
-
   <PropertyGroup Label="ThunderPropagatorPackages">
     <PackageConfiguration>$(PackageIdConfigurationSuffix)$(PackageIdPlatformSuffix)</PackageConfiguration>
-    <ThunderPropagatorVersion>1.0.1-beta.205</ThunderPropagatorVersion>
+    <ThunderPropagatorVersion>1.0.1-beta.215</ThunderPropagatorVersion>
     <ThunderPropagatorPackageId>ThunderPropagator$(PackageConfiguration)</ThunderPropagatorPackageId>
-    <ThunderPropagatorFormatSerializersVersion>1.0.1-beta.4</ThunderPropagatorFormatSerializersVersion>
+    <ThunderPropagatorFormatSerializersVersion>1.0.1-beta.5</ThunderPropagatorFormatSerializersVersion>
     <ThunderPropagatorFormatSerializersPrefix>ThunderPropagator.FormatSerializers</ThunderPropagatorFormatSerializersPrefix>
   </PropertyGroup>
-
   <PropertyGroup Label="ThunderPropagatorFormatSerializersPackages">
     <MessagePackId>$(ThunderPropagatorFormatSerializersPrefix).MessagePack$(PackageConfiguration)</MessagePackId>
     <NetJsonId>$(ThunderPropagatorFormatSerializersPrefix).NetJson$(PackageConfiguration)</NetJsonId>
@@ -20,31 +18,28 @@
     <XmlId>$(ThunderPropagatorFormatSerializersPrefix).Xml$(PackageConfiguration)</XmlId>
     <YamlId>$(ThunderPropagatorFormatSerializersPrefix).Yaml$(PackageConfiguration)</YamlId>
   </PropertyGroup>
-
   <ItemGroup Label="ThunderPropagator Packages">
-    <PackageVersion Include="$(ThunderPropagatorPackageId)" Version="$(ThunderPropagatorVersion)"/>
+    <PackageVersion Include="$(ThunderPropagatorPackageId)" Version="$(ThunderPropagatorVersion)" />
   </ItemGroup>
-
   <ItemGroup Label="Format Serializer Packages">
-    <PackageVersion Include="$(MessagePackId)" Version="$(ThunderPropagatorFormatSerializersVersion)"/>
-    <PackageVersion Include="$(NetJsonId)" Version="$(ThunderPropagatorFormatSerializersVersion)"/>
-    <PackageVersion Include="$(ProtobufId)" Version="$(ThunderPropagatorFormatSerializersVersion)"/>
-    <PackageVersion Include="$(ToonId)" Version="$(ThunderPropagatorFormatSerializersVersion)"/>
-    <PackageVersion Include="$(XmlId)" Version="$(ThunderPropagatorFormatSerializersVersion)"/>
-    <PackageVersion Include="$(YamlId)" Version="$(ThunderPropagatorFormatSerializersVersion)"/>
+    <PackageVersion Include="$(MessagePackId)" Version="$(ThunderPropagatorFormatSerializersVersion)" />
+    <PackageVersion Include="$(NetJsonId)" Version="$(ThunderPropagatorFormatSerializersVersion)" />
+    <PackageVersion Include="$(ProtobufId)" Version="$(ThunderPropagatorFormatSerializersVersion)" />
+    <PackageVersion Include="$(ToonId)" Version="$(ThunderPropagatorFormatSerializersVersion)" />
+    <PackageVersion Include="$(XmlId)" Version="$(ThunderPropagatorFormatSerializersVersion)" />
+    <PackageVersion Include="$(YamlId)" Version="$(ThunderPropagatorFormatSerializersVersion)" />
   </ItemGroup>
-
   <ItemGroup Label="Testing Packages">
-    <PackageVersion Include="BenchmarkDotNet" Version="0.15.8"/>
-    <PackageVersion Include="JetBrains.Annotations" Version="2026.2.0"/>
+    <PackageVersion Include="BenchmarkDotNet" Version="0.15.8" />
+    <PackageVersion Include="JetBrains.Annotations" Version="2026.2.0" />
     <PackageVersion Include="coverlet.collector" Version="10.0.1">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageVersion>
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.9.0"/>
-    <PackageVersion Include="NetArchTest.Rules" Version="1.3.2"/>
-    <PackageVersion Include="NSubstitute" Version="6.2.0"/>
-    <PackageVersion Include="xunit" Version="2.9.3"/>
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.9.0" />
+    <PackageVersion Include="NetArchTest.Rules" Version="1.3.2" />
+    <PackageVersion Include="NSubstitute" Version="6.2.0" />
+    <PackageVersion Include="xunit" Version="2.9.3" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="4.0.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
