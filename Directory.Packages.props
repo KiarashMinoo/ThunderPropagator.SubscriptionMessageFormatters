@@ -4,30 +4,18 @@
     <CentralPackageFloatingVersionsEnabled>true</CentralPackageFloatingVersionsEnabled>
   </PropertyGroup>
   <PropertyGroup Label="ThunderPropagatorPackages">
-    <PackageConfiguration>$(PackageIdConfigurationSuffix)$(PackageIdPlatformSuffix)</PackageConfiguration>
-    <ThunderPropagatorVersion>1.0.1-beta.215</ThunderPropagatorVersion>
-    <ThunderPropagatorPackageId>ThunderPropagator$(PackageConfiguration)</ThunderPropagatorPackageId>
-    <ThunderPropagatorFormatSerializersVersion>1.0.1-beta.5</ThunderPropagatorFormatSerializersVersion>
-    <ThunderPropagatorFormatSerializersPrefix>ThunderPropagator.FormatSerializers</ThunderPropagatorFormatSerializersPrefix>
-  </PropertyGroup>
-  <PropertyGroup Label="ThunderPropagatorFormatSerializersPackages">
-    <MessagePackId>$(ThunderPropagatorFormatSerializersPrefix).MessagePack$(PackageConfiguration)</MessagePackId>
-    <NetJsonId>$(ThunderPropagatorFormatSerializersPrefix).NetJson$(PackageConfiguration)</NetJsonId>
-    <ProtobufId>$(ThunderPropagatorFormatSerializersPrefix).Protobuf$(PackageConfiguration)</ProtobufId>
-    <ToonId>$(ThunderPropagatorFormatSerializersPrefix).Toon$(PackageConfiguration)</ToonId>
-    <XmlId>$(ThunderPropagatorFormatSerializersPrefix).Xml$(PackageConfiguration)</XmlId>
-    <YamlId>$(ThunderPropagatorFormatSerializersPrefix).Yaml$(PackageConfiguration)</YamlId>
+    <ThunderPropagatorFormatSerializersVersion>1.0.1-beta.16</ThunderPropagatorFormatSerializersVersion>
   </PropertyGroup>
   <ItemGroup Label="ThunderPropagator Packages">
-    <PackageVersion Include="$(ThunderPropagatorPackageId)" Version="$(ThunderPropagatorVersion)" />
+    <PackageVersion Include="$(ThunderPropagatorPackageId)" Version="1.0.1-beta.216" />
   </ItemGroup>
   <ItemGroup Label="Format Serializer Packages">
-    <PackageVersion Include="$(MessagePackId)" Version="$(ThunderPropagatorFormatSerializersVersion)" />
-    <PackageVersion Include="$(NetJsonId)" Version="$(ThunderPropagatorFormatSerializersVersion)" />
-    <PackageVersion Include="$(ProtobufId)" Version="$(ThunderPropagatorFormatSerializersVersion)" />
-    <PackageVersion Include="$(ToonId)" Version="$(ThunderPropagatorFormatSerializersVersion)" />
-    <PackageVersion Include="$(XmlId)" Version="$(ThunderPropagatorFormatSerializersVersion)" />
-    <PackageVersion Include="$(YamlId)" Version="$(ThunderPropagatorFormatSerializersVersion)" />
+    <PackageVersion Include="$(MessagePackPackageId)" Version="$(ThunderPropagatorFormatSerializersVersion)" />
+    <PackageVersion Include="$(NetJsonPackageId)" Version="$(ThunderPropagatorFormatSerializersVersion)" />
+    <PackageVersion Include="$(ProtobufPackageId)" Version="$(ThunderPropagatorFormatSerializersVersion)" />
+    <PackageVersion Include="$(ToonPackageId)" Version="$(ThunderPropagatorFormatSerializersVersion)" />
+    <PackageVersion Include="$(XmlPackageId)" Version="$(ThunderPropagatorFormatSerializersVersion)" />
+    <PackageVersion Include="$(YamlPackageId)" Version="$(ThunderPropagatorFormatSerializersVersion)" />
   </ItemGroup>
   <ItemGroup Label="Testing Packages">
     <PackageVersion Include="BenchmarkDotNet" Version="0.15.8" />

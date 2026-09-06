@@ -2,7 +2,7 @@
 
   <ItemGroup>
     <PackageReference Include="$(ThunderPropagatorPackageId)"/>
-    <PackageReference Include="$(YamlId)"/>
+    <PackageReference Include="$(YamlPackageId)"/>
   </ItemGroup>
 
 </Project>
