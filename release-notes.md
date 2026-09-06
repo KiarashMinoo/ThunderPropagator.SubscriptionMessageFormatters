@@ -1,5 +1,5 @@
-## [1.0.1-beta.6] — 2026-09-04
+## [1.0.1-beta.7] — 2026-09-06
 
 ### ⚙️ CI / Tooling
 
-- ThunderPropagator.SubscriptionMessageFormatters: switch NuGet publish to OIDC Trusted Publishing `(2b4b011)` — Kiarash Minoo
+- ThunderPropagator.SubscriptionMessageFormatters: rename format package id properties to XxxPackageId `(3d5b53b)` — Kiarash Minoo
