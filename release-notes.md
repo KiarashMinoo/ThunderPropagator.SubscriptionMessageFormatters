@@ -1,5 +1,9 @@
-## [1.0.1-beta.7] — 2026-09-06
+## [1.0.1-beta.8] — 2026-09-14
 
-### ⚙️ CI / Tooling
+### 📦 Dependencies
 
-- ThunderPropagator.SubscriptionMessageFormatters: rename format package id properties to XxxPackageId `(3d5b53b)` — Kiarash Minoo
+| Package | Old | New |
+|---------|-----|-----|
+| Microsoft.NET.Test.Sdk | 18.9.0 | 18.10.0 |
+
+- Bump the testing group with 1 update `(b9ca42d)` — dependabot[bot]
