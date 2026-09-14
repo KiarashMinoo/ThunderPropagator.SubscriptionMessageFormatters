@@ -1,9 +1,5 @@
-## [1.0.1-beta.8] — 2026-09-14
+## [1.0.1-beta.9] — 2026-09-14
 
-### 📦 Dependencies
+### 🏠 Chores
 
-| Package | Old | New |
-|---------|-----|-----|
-| Microsoft.NET.Test.Sdk | 18.9.0 | 18.10.0 |
-
-- Bump the testing group with 1 update `(b9ca42d)` — dependabot[bot]
+- ThunderPropagator.SubscriptionMessageFormatters: move per-format template into a scoped rule and bump pinned packages `(d3ed913)` — Kiarash Minoo

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.0.1-beta.9] — 2026-09-14
+
+### 🏠 Chores
+
+- ThunderPropagator.SubscriptionMessageFormatters: move per-format template into a scoped rule and bump pinned packages `(d3ed913)` — Kiarash Minoo
+
 ## [1.0.1-beta.8] — 2026-09-14
 
 ### 📦 Dependencies
