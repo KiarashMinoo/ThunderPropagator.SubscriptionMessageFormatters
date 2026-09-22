@@ -1,5 +1,9 @@
-## [1.0.1-beta.10] — 2026-09-15
+## [1.0.1-beta.11] — 2026-09-22
 
-### ⚙️ CI / Tooling
+### 📦 Dependencies
 
-- ThunderPropagator.SubscriptionMessageFormatters: add manual queue-mode CI dispatch and bump pinned packages `(995d2b7)` — Kiarash Minoo
+| Package | Old | New |
+|---------|-----|-----|
+| Microsoft.NET.Test.Sdk | 18.10.0 | 18.10.1 |
+
+- Bump the testing group with 1 update `(62a592b)` — dependabot[bot]

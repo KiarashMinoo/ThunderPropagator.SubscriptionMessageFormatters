@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.0.1-beta.11] — 2026-09-22
+
+### 📦 Dependencies
+
+| Package | Old | New |
+|---------|-----|-----|
+| Microsoft.NET.Test.Sdk | 18.10.0 | 18.10.1 |
+
+- Bump the testing group with 1 update `(62a592b)` — dependabot[bot]
+
 ## [1.0.1-beta.10] — 2026-09-15
 
 ### ⚙️ CI / Tooling
