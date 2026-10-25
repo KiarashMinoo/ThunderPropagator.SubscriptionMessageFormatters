@@ -4,10 +4,10 @@
     <CentralPackageFloatingVersionsEnabled>true</CentralPackageFloatingVersionsEnabled>
   </PropertyGroup>
   <PropertyGroup Label="ThunderPropagatorPackages">
-    <ThunderPropagatorFormatSerializersVersion>1.0.1-beta.19</ThunderPropagatorFormatSerializersVersion>
+    <ThunderPropagatorFormatSerializersVersion>$(ThunderPropagatorFloatingVersion)</ThunderPropagatorFormatSerializersVersion>
   </PropertyGroup>
   <ItemGroup Label="ThunderPropagator Packages">
-    <PackageVersion Include="$(ThunderPropagatorPackageId)" Version="1.0.1-beta.219" />
+    <PackageVersion Include="$(ThunderPropagatorPackageId)" Version="$(ThunderPropagatorFloatingVersion)" />
   </ItemGroup>
   <ItemGroup Label="Format Serializer Packages">
     <PackageVersion Include="$(MessagePackPackageId)" Version="$(ThunderPropagatorFormatSerializersVersion)" />
