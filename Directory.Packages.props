@@ -2,12 +2,18 @@
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     <CentralPackageFloatingVersionsEnabled>true</CentralPackageFloatingVersionsEnabled>
+    <!-- Lets the pins below override vulnerable transitive versions coming from upstream packages. -->
+    <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
   <PropertyGroup Label="ThunderPropagatorPackages">
     <ThunderPropagatorFormatSerializersVersion>$(ThunderPropagatorFloatingVersion)</ThunderPropagatorFormatSerializersVersion>
   </PropertyGroup>
   <ItemGroup Label="ThunderPropagator Packages">
     <PackageVersion Include="$(ThunderPropagatorPackageId)" Version="$(ThunderPropagatorFloatingVersion)" />
+  </ItemGroup>
+  <ItemGroup Label="Transitive security pins">
+    <!-- GHSA-qhrr-8q5h-9q3h: FormatSerializers.MessagePack builds up to 3.1.8 pull MessagePack 3.1.8 transitively. -->
+    <PackageVersion Include="MessagePack" Version="3.1.12" />
   </ItemGroup>
   <ItemGroup Label="Format Serializer Packages">
     <PackageVersion Include="$(MessagePackPackageId)" Version="$(ThunderPropagatorFormatSerializersVersion)" />
