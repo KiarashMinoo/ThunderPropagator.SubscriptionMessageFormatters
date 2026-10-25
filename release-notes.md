@@ -1,5 +1,9 @@
-## [1.0.1-beta.14] — 2026-10-25
+## [1.0.1-beta.15] — 2026-10-25
 
-### ⚙️ CI / Tooling
+### 📦 Dependencies
 
-- ThunderPropagator.SubscriptionMessageFormatters: Float family package versions and add third-party updater mode `(8a1a378)` — Kiarash Minoo
+| Package | Old | New |
+|---------|-----|-----|
+| MessagePack | - | 3.1.12 |
+
+- ThunderPropagator.SubscriptionMessageFormatters: Pin MessagePack 3.1.12 to fix transitive vulnerability `(97f351a)` — Kiarash Minoo
