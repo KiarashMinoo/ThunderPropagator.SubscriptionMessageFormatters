@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.0.1-beta.14] — 2026-10-25
+
+### ⚙️ CI / Tooling
+
+- ThunderPropagator.SubscriptionMessageFormatters: Float family package versions and add third-party updater mode `(8a1a378)` — Kiarash Minoo
+
 ## [1.0.1-beta.13] — 2026-10-25
 
 ### 📦 Dependencies
